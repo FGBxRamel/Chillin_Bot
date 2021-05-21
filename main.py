@@ -1,5 +1,5 @@
 import discord as dc
-import discord_slash as dc_s
+import discord_slash as dcs
 from decouple import config
 import logging
 #import backend
@@ -11,12 +11,13 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 
 client = dc.Client(intents=dc.Intents.all())
-slash = dc_s.SlashCommand(client, sync_commands=True)
+slash = dcs.SlashCommand(client, sync_commands=True)
 guild_id = int(config("guild_id"))
+path_media = config("path_media")
 
 @client.event
 async def on_ready():
-    print("We are ready to rumbble!")
+    print("We are ready to rumble!")
 
 @slash.slash(name="test", guild_ids=[guild_id], description="Ein einfacher Test")
 async def test(ctx):

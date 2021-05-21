@@ -132,3 +132,4 @@ dmypy.json
 #Own
 .vscode/
 bot.log
+media/
