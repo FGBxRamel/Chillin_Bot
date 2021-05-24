@@ -3,6 +3,8 @@ import discord_slash as dcs
 from decouple import config
 import logging
 from discord_slash.utils.manage_commands import create_option
+import random as rd
+import os
 #import backend
 
 #---------------Logging---------------#
@@ -19,8 +21,11 @@ slash = dcs.SlashCommand(client, sync_commands=True)
 try:
     guild_id = int(config("guild_id"))
     path_media = config("path_media")
+    if not path_media.endswith("/"):
+        path_media += "/"
 except:
     print("Eine wichtige Variable wurde nicht gesetzt!\nBitte überprüfe deine Umgebungsvariablen!")
+
 #---------------Shit that needs to be done---------------#
 @client.event
 async def on_ready():
@@ -45,8 +50,24 @@ async def test(ctx):
                 )
             ]
         )
-async def hug(ctx, person: str):
-    await ctx.send(content=f"XY drückt dich!")
+async def hug(ctx, person):
+    embed = dc.Embed(
+                    title="Cuddle Attack!",
+                    description="Das ist sehr effektiv!",
+                    color=rd.randint(0, 0xFFFFFF)
+                ).set_author(name=ctx.author.display_name)
+    #image = random_image("hugs")
+    file = dc.File(random_image("hugs"), filename="hug.jpg")
+    embed.set_image(url="attachment://hug.jpg")
+    await ctx.send(content=f"Hey {person.mention}! Du wirst gedrückt:", embed=embed, file=file)
+
+
+#---------------Functions---------------#
+def random_image(type, path=config("path_media")):
+    if not path.endswith("/" or "\\"):
+        path += "/"
+    return (path_media + type + "/" + str(rd.choice(os.listdir(path_media + type))))
+
 
 #---------------Don't you dare touch it!---------------#
 client.run(config("token"))
