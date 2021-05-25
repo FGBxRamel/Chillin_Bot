@@ -51,15 +51,37 @@ async def test(ctx):
             ]
         )
 async def hug(ctx, person):
-    embed = dc.Embed(
+    hug_embed = dc.Embed(
                     title="Cuddle Attack!",
                     description="Das ist sehr effektiv!",
                     color=rd.randint(0, 0xFFFFFF)
                 ).set_author(name=ctx.author.display_name)
-    #image = random_image("hugs")
-    file = dc.File(random_image("hugs"), filename="hug.jpg")
-    embed.set_image(url="attachment://hug.jpg")
-    await ctx.send(content=f"Hey {person.mention}! Du wirst gedrückt:", embed=embed, file=file)
+    hug_file = dc.File(random_image("hugs"), filename="hug.jpg")
+    hug_embed.set_image(url="attachment://hug.jpg")
+    await ctx.send(content=f"Hey {person.mention}! Du wirst gedrückt:", embed=hug_embed, file=hug_file)
+
+@slash.slash(
+        name="Kiss",
+        description="Give someone a kiss",
+        guild_ids=[guild_id],
+        options=[
+            create_option(
+                name="person",
+                description="The Person you wanna kiss.",
+                option_type=6,
+                required=True
+                )
+            ]
+        )
+async def kiss(ctx, person):
+    kiss_embed = dc.Embed(
+                    title="Kiss",
+                    description="*Knutsch*",
+                    color=rd.randint(0, 0xFFFFFF)
+                ).set_author(name=ctx.author.display_name)
+    kiss_file = dc.File(random_image("kiss"), filename="kiss.jpg")
+    kiss_embed.set_image(url="attachment://kiss.jpg")
+    await ctx.send(content=f"Hey {person.mention}! Dir wurde ein Kuss gegeben:", embed=kiss_embed, file=kiss_file)
 
 
 #---------------Functions---------------#
